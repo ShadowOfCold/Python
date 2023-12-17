@@ -1,18 +1,17 @@
 import requests
 from bs4 import BeautifulSoup
-import Database
-import Config
-import sqlite3
+import Database as Database
 import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters.command import Command
+import sqlite3
+import Config
 
-headers = { 'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.686 YaBrowser/23.9.5.686 Yowser/2.5 Safari/537.36' }
+headers = { 'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5993.731 YaBrowser/23.11.1.731 Yowser/2.5 Safari/537.36' }
 
 URL = "https://mangalib.me/"
-page = requests.get(url = URL)
+page = requests.get(url = URL, headers=headers)
 soup = BeautifulSoup(page.content, "html.parser")
-
 comics = soup.find_all("div", class_="updates__item")
 
 Database.create_table()
@@ -49,7 +48,8 @@ async def show_table(message: types.Message):
     if len(response) > 4096:
         for x in range(0, len(response), 4096):
             await message.answer(response[x:x+4096])
-
+    else:
+        await message.answer(response)
 async def main():
     await dp.start_polling(bot)
 
