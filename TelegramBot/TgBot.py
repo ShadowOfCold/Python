@@ -37,8 +37,8 @@ cursor = db.cursor()
 bot = Bot(token=Config.API_TOKEN)
 dp = Dispatcher()
 
-@dp.message(Command('show_table'))
-async def show_table(message: types.Message):
+@dp.message(Command('Comics'))
+async def Comics(message: types.Message):
     cursor.execute('SELECT * FROM comics')
     data = cursor.fetchall()
 
